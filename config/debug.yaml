@@ -1,0 +1,14 @@
+server:
+  port: :8088
+db:
+  host: 127.0.0.1
+  port: 54320
+  user: test
+  dbname: edu
+  password: test123
+  maxcons: 10
+  maxidlecons: 2
+jwt:
+  key: test123
+firebase:
+  credentials: /Users/xucheng/fir-learn-f939d-firebase-adminsdk-hdw4p-8484139d16.json
