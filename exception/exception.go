@@ -16,11 +16,12 @@ func NewFrom(originError error) *Exception {
 		Code: InternalServerError.Code,
 		Msg:  originError.Error(),
 	}
-
 }
 
 var (
 	OK = &Exception{Code: 0, Msg: "OK"}
 
-	InternalServerError = &Exception{Code: 10001, Msg: "内部服务器错误"}
+	InternalServerError = &Exception{Code: 10001, Msg: "InternalServerError"}
+
+	PayError = &Exception{Code: 20001, Msg: "pay error"}
 )
