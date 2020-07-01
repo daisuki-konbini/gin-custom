@@ -39,7 +39,7 @@ jobs: # basic units of work in a run
 
       - run:
           name: build
-          command: go build -o contacts
+          command: go build -o contacts|echo pwd
 
       - save_cache:
           key: go-mod-v4-{{ checksum "go.sum" }}
