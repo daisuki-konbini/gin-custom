@@ -16,7 +16,7 @@ func init() {
 	var err error
 	conf := config.GetConfig().Sub("db")
 	db, err = gorm.Open("postgres",
-		fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s",
+		fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=disable password=%s",
 			conf.GetString("host"),
 			conf.GetString("port"),
 			conf.GetString("user"),

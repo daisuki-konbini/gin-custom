@@ -48,7 +48,9 @@ jobs: # basic units of work in a run
 
       - run:
           name: Start service
-
+          environment:
+            CONTACTS_DB_URL: "postgres://circleci-demo-go@localhost:5432/circle_test?sslmode=disable"
+            CONTACTS_DB_MIGRATIONS: /home/circleci/project/db/migrations
           command: /home/circleci/project/contacts -env test
           background: true # keep service running and proceed to next step
 
@@ -56,11 +58,10 @@ jobs: # basic units of work in a run
           name: Validate service is working
           command: |
             sleep 5
-            curl --retry 10 --retry-delay 1 -X GET http://localhost:8088/health
+            curl --retry 10 --retry-delay 1 -X GET  http://localhost:8088/v1/health
       - store_artifacts: # upload test summary for display in Artifacts
           path: /tmp/test-results
           destination: raw-test-output
-
       - store_test_results: # upload test results for display in Test Summary
           path: /tmp/test-results
 workflows:
