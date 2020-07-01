@@ -38,7 +38,7 @@ jobs: # basic units of work in a run
           command: go mod download
 
       - run:
-          name: build
+          name: Build
           command: go build -o contacts
 
       - save_cache:
@@ -48,9 +48,9 @@ jobs: # basic units of work in a run
 
       - run:
           name: Start service
-          environment:
-            CONTACTS_DB_URL: "postgres://circleci-demo-go@localhost:5432/circle_test?sslmode=disable"
-            CONTACTS_DB_MIGRATIONS: /home/circleci/project/db/migrations
+          # environment:
+          #   CONTACTS_DB_URL: "postgres://circleci-demo-go@localhost:5432/circle_test"
+          #   CONTACTS_DB_MIGRATIONS: /home/circleci/project/db/migrations
           command: /home/circleci/project/contacts -env test
           background: true # keep service running and proceed to next step
 
@@ -58,7 +58,7 @@ jobs: # basic units of work in a run
           name: Validate service is working
           command: |
             sleep 5
-            curl --retry 10 --retry-delay 1 -X GET  http://localhost:8080/v1/health
+            curl --retry 10 --retry-delay 1 -X GET  http://localhost:8088/v1/health
       - store_artifacts: # upload test summary for display in Artifacts
           path: /tmp/test-results
           destination: raw-test-output
