@@ -14,7 +14,7 @@ import (
 
 var app *firebase.App
 
-//TODO check should persistence
+//TODO check  should persistence
 var authClient *auth.Client
 
 func init() {
