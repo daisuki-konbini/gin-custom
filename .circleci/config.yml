@@ -36,10 +36,11 @@ jobs:
             sleep 5
             curl --retry 10 --retry-delay 1 -X GET  http://localhost:8080/health
       - run: ls -al
-      # - persist_to_workspace:
-      #     root: .
-      #     paths:
-      #       - tmp
+      - persist_to_workspace:
+          root: .
+          paths:
+            - config
+            - app
   deploy:
     docker:
       - image: circleci/golang:1.12
