@@ -49,13 +49,12 @@ jobs:
     steps:
       - attach_workspace:
           at: workspace
-      # - run:
-      #     name: Build
-      #     command: go build -o app
+      - run:
+          name: kill user
+          command: fuser -k workspace/app
       - run:
           name: Deploy Over SSH
           command: |
-            fuser -k workspace/app
             scp -o StrictHostKeyChecking=no workspace/app root@47.91.16.244:/root/
       - run:
           name: Execute remote script
