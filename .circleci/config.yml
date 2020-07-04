@@ -47,8 +47,6 @@ jobs:
     steps:
       - attach_workspace:
           at: workspace
-      - run: sudo apt-get update&&sudo apt-get install -y fuser
-      - run: fuser workspace/app
       - run:
           name: Deploy Over SSH
           command: |
