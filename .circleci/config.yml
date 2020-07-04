@@ -50,7 +50,7 @@ jobs:
           at: workspace
       - run:
           name: ls
-          command: ls -al
+          command: ls workspace -al
       # - run:
       #     name: Build
       #     command: go build -o app
