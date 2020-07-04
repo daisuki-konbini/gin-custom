@@ -50,12 +50,12 @@ jobs:
       - run:
           name: Deploy Over SSH
           command: |
-            scp -o StrictHostKeyChecking=no workspace/app root@47.91.16.244:/root/
             scp -o StrictHostKeyChecking=no config/* root@47.91.16.244:/config/
       # - run:
       #     name: Execute remote script
       #     command: |
       #       ssh root@47.91.16.244 "sh -c /root/aliyun.ecs.deploy.sh >/dev/null 2>&1 &"
+      # scp -o StrictHostKeyChecking=no workspace/app root@47.91.16.244:/root/
       # scp -o StrictHostKeyChecking=no workspace/app root@47.91.16.244:/root/
 workflows:
   version: 2
