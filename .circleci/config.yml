@@ -37,7 +37,7 @@ jobs: # basic units of work in a run
 
       - run:
           name: Build
-          command: go build -o app
+          command: go build -o test
 
       - save_cache:
           key: go-mod-v4-{{ checksum "go.sum" }}
@@ -49,7 +49,7 @@ jobs: # basic units of work in a run
           environment:
             CONTACTS_DB_URL: "postgres://circleci-demo-go@localhost:5432/circle_test?sslmode=disable"
             CONTACTS_DB_MIGRATIONS: /home/circleci/project/db/migrations
-          command: /home/circleci/project/app
+          command: /home/circleci/project/text
           background: true # keep service running and proceed to next step
 
       - run:
