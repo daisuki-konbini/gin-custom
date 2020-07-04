@@ -12,7 +12,7 @@ jobs: # basic units of work in a run
           POSTGRES_USER: circleci-demo-go
           POSTGRES_DB: circle_test
 
-    parallelism: 2
+    parallelism: 1
 
     environment: # environment variables for the build itself
       TEST_RESULTS: /tmp/test-results # path to where test results will be saved
@@ -37,7 +37,7 @@ jobs: # basic units of work in a run
 
       - run:
           name: Build
-          command: go build -o app
+          command: go build -o contacts
 
       - save_cache:
           key: go-mod-v4-{{ checksum "go.sum" }}
@@ -49,7 +49,7 @@ jobs: # basic units of work in a run
           environment:
             CONTACTS_DB_URL: "postgres://circleci-demo-go@localhost:5432/circle_test?sslmode=disable"
             CONTACTS_DB_MIGRATIONS: /home/circleci/project/db/migrations
-          command: /home/circleci/project/app
+          command: /home/circleci/project/contacts -env test
           background: true # keep service running and proceed to next step
 
       - run:
@@ -57,17 +57,18 @@ jobs: # basic units of work in a run
           command: |
             sleep 5
             curl --retry 10 --retry-delay 1 -X GET  http://localhost:8080/health
-      - persist_to_workspace:
-          root: .
-          paths:
-            - config
-            - app
   deploy:
-    machine:
-      enabled: true
+    docker: # run the steps with Docker
+      # CircleCI Go images available at: https://hub.docker.com/r/circleci/golang/
+      - image: circleci/golang:1.12
+        environment: # environment variables for primary container
+          GIN_MODE: release
     steps:
-      - run: ls -al
-      - run: pwd
+      - checkout # check out source code to working directory
+      - run: env
+      - run:
+          name: Build
+          command: go build -o app
       - run:
           name: Deploy Over SSH
           command: |
