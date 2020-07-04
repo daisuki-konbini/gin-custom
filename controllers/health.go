@@ -15,5 +15,6 @@ func (h HealthController) Status(c *gin.Context) interface{} {
 	if err != nil {
 		return err
 	}
+
 	return "ok"
 }
