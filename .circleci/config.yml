@@ -50,16 +50,13 @@ jobs:
       - attach_workspace:
           at: workspace
       - run:
-          name: kill user
-          command: fuser -k workspace/app
-      - run:
           name: Deploy Over SSH
           command: |
             scp -o StrictHostKeyChecking=no workspace/app root@47.91.16.244:/root/
-      - run:
-          name: Execute remote script
-          command: |
-            ssh root@47.91.16.244 "sh -c /root/aliyun.ecs.deploy.sh"
+      # - run:
+      #     name: Execute remote script
+      #     command: |
+      #       ssh root@47.91.16.244 "sh -c /root/aliyun.ecs.deploy.sh"
 workflows:
   version: 2
   build-workflow:
