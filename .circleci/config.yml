@@ -43,7 +43,7 @@ jobs:
             - app
   deploy:
     docker:
-      - image: koalaman/shellcheck-alpine:stable
+      - image: cimg/base:2020.01
     steps:
       - attach_workspace:
           at: workspace
