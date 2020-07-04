@@ -11,7 +11,6 @@ var config *viper.Viper
 
 //Init ...
 func init() {
-	gin.SetMode(gin.TestMode)
 	config = viper.New()
 	config.SetConfigType("yaml")
 	config.SetConfigName(gin.Mode())
