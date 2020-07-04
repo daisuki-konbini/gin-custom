@@ -77,6 +77,7 @@ jobs: # basic units of work in a run
           name: Upload config
           command: |
             scp -o StrictHostKeyChecking=no config/* root@47.91.16.244:/config/
+      - run: ssh root@47.91.16.244 "pkill -f 'app';/root/app&"
 workflows:
   version: 2
   build-workflow:
