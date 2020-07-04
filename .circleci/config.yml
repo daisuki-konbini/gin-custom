@@ -58,8 +58,11 @@ jobs: # basic units of work in a run
             sleep 5
             curl --retry 10 --retry-delay 1 -X GET  http://localhost:8080/health
   deploy:
-    machine:
-      enabled: true
+    docker: # run the steps with Docker
+      # CircleCI Go images available at: https://hub.docker.com/r/circleci/golang/
+      - image: circleci/golang:1.12
+        environment: # environment variables for primary container
+          GIN_MODE: release
     steps:
       - checkout # check out source code to working directory
       - run:
