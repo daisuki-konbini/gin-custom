@@ -47,10 +47,11 @@ jobs:
     steps:
       - attach_workspace:
           at: workspace
+      - run: ls workspace
       - run:
           name: Deploy Over SSH
           command: |
-            scp -o StrictHostKeyChecking=no workspace/backend root@47.91.16.244:/root/download/
+            # scp -o StrictHostKeyChecking=no workspace/backend root@47.91.16.244:/root/download/
             scp -o StrictHostKeyChecking=no workspace/configs/* root@47.91.16.244:/configs/
       - run:
           name: Execute remote script
