@@ -1,0 +1,16 @@
+db:
+  dsn: host=127.0.0.1 port=54320 user=test sslmode=disable dbname=edu password=test123
+  active: 10
+  idle: 2
+  idle_timeout: 1
+jwt:
+  key: test123
+  expire: 10 #days
+firebase:
+  credentials: configs/firebase.json
+nihaopay:
+  api: https://apitest.nihaopay.com/v1.2
+  token: Bearer 6c4dc4828474fa73c5f438a9eb2fbf3092e441d9f2ea5fbcf93b51a232ddc249
+  ipn_url: https://1c5ef59140ad.ngrok.io/v1/pay/callback
+  callback_url: http://localhost:8080/v1/pay
+  timeout: 120

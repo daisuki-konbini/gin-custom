@@ -8,6 +8,6 @@
     },
     "files.exclude": {
         "**/.git": false
-    }
-
+    },
+    // "go.lintFlags": ["--enable-all", "--new"]
 }

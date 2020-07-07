@@ -21,14 +21,14 @@ jobs:
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
       - run:
           name: Build
-          command: go build -o app
+          command: go build -o backend
       - save_cache:
           key: go-mod-v4-{{ checksum "go.sum" }}
           paths:
             - "/go/pkg/mod"
       - run:
           name: Start service
-          command: /home/circleci/project/app
+          command: /home/circleci/project/backend
           background: true
       - run:
           name: Validate service is working
@@ -39,8 +39,8 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - config
-            - app
+            - configs
+            - backend
   deploy:
     docker:
       - image: cimg/base:2020.01
@@ -50,8 +50,8 @@ jobs:
       - run:
           name: Deploy Over SSH
           command: |
-            scp -o StrictHostKeyChecking=no workspace/app root@47.91.16.244:/root/download/
-            scp -o StrictHostKeyChecking=no workspace/config/* root@47.91.16.244:/config/
+            scp -o StrictHostKeyChecking=no workspace/backend root@47.91.16.244:/root/download/
+            scp -o StrictHostKeyChecking=no workspace/configs/* root@47.91.16.244:/configs/
       - run:
           name: Execute remote script
           command: |

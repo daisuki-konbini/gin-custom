@@ -1,9 +1,7 @@
 package main
 
-import (
-	"gin/server"
-)
+import "app-backend/api/http"
 
 func main() {
-	server.Init()
+	http.Init()
 }
