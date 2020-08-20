@@ -11,6 +11,12 @@ default_config: &default_config
   environment:
     ENV: dev
 
+persist: &persist
+  run:
+    name: persist
+    command: |
+      touch test.txt
+
 install_dependencies: &install_dependencies
   run:
     name: install_dependencies
@@ -23,11 +29,18 @@ jobs:
     <<: *default_config
     steps:
       - *install_dependencies
+      - *persist
+      - persist_to_workspace:
+          root: *working_directory
+          paths:
+            - test.txt
+  ls:
+    <<: *default_config
+    steps:
       - attach_workspace:
           at: *working_directory
       - run: pwd
       - run: ls -al
-      - run: echo fn
 workflows:
   version: 2
   test:
