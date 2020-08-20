@@ -41,9 +41,19 @@ jobs:
           at: *working_directory
       - run: pwd
       - run: ls -al
+
+parameters:
+  run_integration_tests:
+    type: boolean
+    default: false
+
 workflows:
-  version: 2
-  test:
+  my-workflow:
+    when:
+      condition:
+        or:
+          - equal: [1, 1]
+          - equal: [1, 2]
     jobs:
       - build
       - ls:
