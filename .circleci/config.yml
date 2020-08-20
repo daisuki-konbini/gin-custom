@@ -36,10 +36,6 @@ jobs:
     environment:
       ENV: << parameters.env >>
     steps:
-      - run: touch << parameters.file >>
-      - print:
-          message: Printing << parameters.file >>
-      - run: cat << parameters.file >>
       - run: echo $ENV
       - run: env
 
