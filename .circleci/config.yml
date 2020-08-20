@@ -22,6 +22,7 @@ jobs:
   build:
     <<: *default_config
     steps:
+      - *install_dependencies
       - attach_workspace:
           at: *working_directory
       - run: pwd
