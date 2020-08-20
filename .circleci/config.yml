@@ -64,3 +64,16 @@ workflows:
       - deploy:
           requires:
             - build
+  test-workflow:
+    jobs:
+      - build
+      - approve:
+          type: approval
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
+      - deploy:
+          requires:
+            - approve
