@@ -66,9 +66,6 @@ workflows:
           requires:
             - build-<< matrix.env >>
       - deploy:
-          name: apply-<< matrix.env >>
-          matrix:
-            parameters:
-              env: ["dev", "test"]
+          name: apply
           requires:
-            - approve-<< matrix.env >>
+            - approve-dev
