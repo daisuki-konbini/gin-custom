@@ -29,11 +29,6 @@ persist: &persist
       touch test1.txt
 
 jobs:
-  my-job:
-    <<: *default_config
-    steps:
-      - greeting:
-        env: "My-Name"
   build:
     <<: *default_config
     working_directory: << pipeline.parameters.workingdir >>
@@ -48,6 +43,8 @@ jobs:
   ls:
     <<: *default_config
     steps:
+      - greeting:
+        env: "My-Name"
       - attach_workspace:
           at: << pipeline.parameters.workingdir >>
       - run: pwd
@@ -57,7 +54,6 @@ jobs:
 workflows:
   my-workflow:
     jobs:
-      - my-job
       - build
       - ls:
           requires:
