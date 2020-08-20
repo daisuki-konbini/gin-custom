@@ -4,11 +4,12 @@ executors:
   default-executor:
     docker:
       - image: hashicorp/terraform:0.12.29
+    working_directory: << pipeline.parameters.workingdir >>
 
 parameters:
   workingdir:
     type: string
-    default: "~/infra/"
+    default: "~/infra"
 
 commands:
   print:
@@ -28,7 +29,7 @@ commands:
 jobs:
   build:
     executor: default-executor
-    working_directory: ~/<< pipeline.parameters.workingdir >>/<< parameters.env >>
+    working_directory: << parameters.env >>
     parameters:
       env:
         type: string
@@ -41,7 +42,7 @@ jobs:
       - run: ls
       - run: pwd
       - persist_to_workspace:
-          root: ~/<< pipeline.parameters.workingdir >>/<< parameters.env >>
+          root: << pipeline.parameters.workingdir >>/<< parameters.env >>
           paths:
             - test
   deploy:
@@ -54,7 +55,7 @@ jobs:
       ENV: << parameters.env >>
     steps:
       - attach_workspace:
-          at: ~/<< pipeline.parameters.workingdir >>/<< parameters.env >>
+          at: << pipeline.parameters.workingdir >>/<< parameters.env >>
       - run:
           command: |
             ls
