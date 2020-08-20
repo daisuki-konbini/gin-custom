@@ -36,6 +36,19 @@ jobs:
       ENV: << parameters.env >>
     steps:
       - run: echo $ENV
+  deploy:
+    executor: default-executor
+    parameters:
+      env:
+        type: string
+        default: dev
+    environment:
+      ENV: << parameters.env >>
+    steps:
+      - run:
+          command: |
+            ls 
+            circleci-agent step halt
 
 workflows:
   my-workflow:
@@ -45,13 +58,14 @@ workflows:
             parameters:
               env: ["dev", "test"]
       - build:
+          type: approval
           name: approve-<< matrix.env >>
           matrix:
             parameters:
               env: ["dev", "test"]
           requires:
             - build-<< matrix.env >>
-      - build:
+      - deploy:
           name: apply-<< matrix.env >>
           matrix:
             parameters:
