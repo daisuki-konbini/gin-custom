@@ -58,22 +58,30 @@ jobs:
             ssh root@47.91.16.244 "sh -c /root/aliyun.ecs.deploy.sh >/dev/null 2>&1 &"
 workflows:
   version: 2
-  build-workflow:
+  dev_build_plan_approve_apply:
     jobs:
-      - build
-      - deploy:
-          requires:
-            - build
-  test-workflow:
-    jobs:
-      - build
       - approve:
           type: approval
-          requires:
-            - build
           filters:
             branches:
               only: master
-      - deploy:
+      - build:
           requires:
             - approve
+      - deploy:
+          requires:
+            - build
+
+  prod_build_plan_approve_apply:
+    jobs:
+      - approve:
+          type: approval
+          filters:
+            branches:
+              only: master
+      - build:
+          requires:
+            - approve
+      - deploy:
+          requires:
+            - build
