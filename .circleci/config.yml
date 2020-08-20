@@ -30,10 +30,11 @@ jobs:
   cat-file:
     <<: *default_config
     parameters:
-      file:
+      env:
         type: string
+        default: dev
     environment:
-      ENV: test
+      ENV: << parameters.env >>
     steps:
       - run: touch << parameters.file >>
       - print:
@@ -46,4 +47,4 @@ workflows:
   my-workflow:
     jobs:
       - cat-file:
-          file: test.txt
+          env: test
