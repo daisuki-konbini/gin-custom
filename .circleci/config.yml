@@ -48,19 +48,16 @@ jobs:
       - attach_workspace:
           at: workspace
       - run:
-          name: Deploy Over SSH
+          name: env
           command: |
-            scp -o StrictHostKeyChecking=no workspace/backend root@47.91.16.244:/root/download/
-            scp -o StrictHostKeyChecking=no workspace/configs/* root@47.91.16.244:/configs/
-      - run:
-          name: Execute remote script
-          command: |
-            ssh root@47.91.16.244 "sh -c /root/aliyun.ecs.deploy.sh >/dev/null 2>&1 &"
+            env
 workflows:
   version: 2
   dev_build_plan_approve_apply:
     jobs:
       - approve:
+          environment:
+            ENV: dev
           type: approval
           filters:
             branches:
@@ -75,6 +72,8 @@ workflows:
   prod_build_plan_approve_apply:
     jobs:
       - approve:
+          environment:
+            ENV: prod
           type: approval
           filters:
             branches:
