@@ -8,7 +8,7 @@ executors:
 parameters:
   workingdir:
     type: string
-    default: "~/infra/dev"
+    default: "~/infra/"
 
 commands:
   print:
@@ -28,6 +28,7 @@ commands:
 jobs:
   build:
     executor: default-executor
+    working_directory: ~/<< pipeline.parameters.workingdir >>/<< parameters.env >>
     parameters:
       env:
         type: string
@@ -36,6 +37,11 @@ jobs:
       ENV: << parameters.env >>
     steps:
       - run: echo $ENV
+      - run: touch test
+      - persist_to_workspace:
+          root: ~/<< pipeline.parameters.workingdir >>/<< parameters.env >>
+          paths:
+            - test
   deploy:
     executor: default-executor
     parameters:
@@ -45,10 +51,12 @@ jobs:
     environment:
       ENV: << parameters.env >>
     steps:
+      - attach_workspace:
+          at: ~/<< pipeline.parameters.workingdir >>/<< parameters.env >>
       - run:
           command: |
-            ls 
-            circleci-agent step halt
+            ls
+            pwd
 workflows:
   my-workflow:
     jobs:
