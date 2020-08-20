@@ -12,7 +12,7 @@ commands:
         type: string
         default: "dev"
     steps:
-      - run: export ENV=<<parameters.env>>
+      - run: "export ENV=<<parameters.env>>"
       - run: echo <<parameters.env>>
 
 base_image: &base_image hashicorp/terraform:0.12.29
