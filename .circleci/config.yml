@@ -29,7 +29,7 @@ commands:
 jobs:
   build:
     executor: default-executor
-    working_directory: << parameters.env >>
+    working_directory: << pipeline.parameters.workingdir >>/<< parameters.env >>
     parameters:
       env:
         type: string
