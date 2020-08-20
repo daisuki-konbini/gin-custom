@@ -37,10 +37,11 @@ jobs:
       ENV: << parameters.env >>
     steps:
       - run: echo $ENV
-      - run: env
 
 workflows:
   my-workflow:
     jobs:
       - cat-file:
           env: test
+      - cat-file:
+          env: dev
