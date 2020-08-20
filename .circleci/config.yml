@@ -1,16 +1,18 @@
 version: 2.1
+
+parameters:
+  workingdir:
+    type: string
+    default: "~/infra/dev"
+
 commands:
   greeting:
     parameters:
       env:
         type: string
         default: "dev"
-      workingdir:
-        type: string
-        default: "~/infra/dev"
     steps:
       - run: export ENV=<<parameters.env>>
-      - run: echo "workingdir = <<parameters.workingdir>>"
 
 base_image: &base_image hashicorp/terraform:0.12.29
 
@@ -48,6 +50,7 @@ jobs:
           at: << pipeline.parameters.workingdir >>
       - run: pwd
       - run: echo "$(pwd) == << pipeline.parameters.workingdir >>"
+      - run: env
 
 workflows:
   my-workflow:
