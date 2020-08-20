@@ -36,6 +36,7 @@ jobs:
       file:
         type: string
     steps:
+      - run: touch << parameters.file >>
       - print:
           message: Printing << parameters.file >>
       - run: cat << parameters.file >>
