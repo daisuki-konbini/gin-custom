@@ -4,7 +4,6 @@ executors:
   default-executor:
     docker:
       - image: hashicorp/terraform:0.12.29
-        command: ["apk add curl", "apk add make"]
 
 parameters:
   workingdir:
