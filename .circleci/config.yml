@@ -1,15 +1,15 @@
 version: 2.1
 
+executors:
+  default-executor:
+    docker:
+      - image: hashicorp/terraform:0.12.29
+        command: ["apk add curl", "apk add make"]
+
 parameters:
   workingdir:
     type: string
     default: "~/infra/dev"
-
-base_image: &base_image hashicorp/terraform:0.12.29
-
-default_config: &default_config
-  docker:
-    - image: *base_image
 
 commands:
   print:
@@ -28,7 +28,7 @@ commands:
 
 jobs:
   cat-file:
-    <<: *default_config
+    executor: default-executor
     parameters:
       env:
         type: string
