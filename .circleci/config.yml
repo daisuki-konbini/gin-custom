@@ -10,8 +10,10 @@ default_config: &default_config
   working_directory: *working_directory
   environment:
     ENV: dev
+
+install_dependencies: &install_dependencies
   run:
-    name: install make && curl
+    name: install_dependencies
     command: |
       apk add make
       apk add curl
