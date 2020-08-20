@@ -44,7 +44,7 @@ jobs:
           paths:
             - test.txt
             - test1.txt
-      - run: echo "$(pwd) == << pipeline.parameters.workingdir >>"
+      - run: echo "$(pwd) == << pipeline.parameters.workingdir = test >>"
 
   ls:
     <<: *default_config
