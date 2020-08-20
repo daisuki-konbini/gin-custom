@@ -41,6 +41,8 @@ workflows:
   my-workflow:
     jobs:
       - cat-file:
+          name: build-macos-0.1
           env: test
       - cat-file:
+          name: build-macos-0.1
           env: dev
