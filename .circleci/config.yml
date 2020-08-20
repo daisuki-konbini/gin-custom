@@ -32,12 +32,12 @@ jobs:
     parameters:
       file:
         type: string
+    environment:
+      ENV: test
     steps:
       - run: touch << parameters.file >>
       - print:
           message: Printing << parameters.file >>
-      - greeting:
-          env: test
       - run: cat << parameters.file >>
       - run: echo $ENV
       - run: env
