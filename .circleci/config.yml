@@ -1,60 +1,25 @@
 version: 2.1
 
-parameters:
-  workingdir:
-    type: string
-    default: "~/infra/dev"
-
 commands:
-  greeting:
+  print:
     parameters:
-      env:
+      message:
         type: string
-        default: "dev"
     steps:
-      - run: export ENV=dev
-      - run: echo $ENV
-
-base_image: &base_image hashicorp/terraform:0.12.29
-
-default_config: &default_config
-  docker:
-    - image: *base_image
-
-persist: &persist
-  run:
-    name: persist
-    command: |
-      touch test.txt
-      touch test1.txt
+      - run: echo << parameters.message >>
 
 jobs:
-  build:
-    <<: *default_config
-    working_directory: << pipeline.parameters.workingdir >>
+  cat-file:
+    parameters:
+      file:
+        type: string
     steps:
-      - *persist
-      - persist_to_workspace:
-          root: << pipeline.parameters.workingdir >>
-          paths:
-            - test.txt
-            - test1.txt
-
-  ls:
-    <<: *default_config
-    steps:
-      - greeting:
-        env: "My-Name"
-      - attach_workspace:
-          at: << pipeline.parameters.workingdir >>
-      - run: pwd
-      - run: echo "$(pwd) == << pipeline.parameters.workingdir >>"
-      - run: env
+      - print:
+          message: Printing << parameters.file >>
+      - run: cat << parameters.file >>
 
 workflows:
   my-workflow:
     jobs:
-      - build
-      - ls:
-          requires:
-            - build
+      - cat-file:
+          file: test.txt
