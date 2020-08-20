@@ -1,86 +1,32 @@
-version: 2
+version: 2.1
+
+base_image: &base_image hashicorp/terraform:0.12.29
+
+working_directory: &working_directory ~/infra
+
+default_config: &default_config
+  docker:
+    - image: *base_image
+  working_directory: *working_directory
+  environment:
+    ENV: dev
+  run:
+    name: install make && curl
+    command: |
+      apk add make
+      apk add curl
+
 jobs:
   build:
-    docker:
-      - image: circleci/golang:1.12
-        environment:
-          GIN_MODE: test
-      - image: circleci/postgres:9.6-alpine
-        environment:
-          POSTGRES_USER: circleci-demo-go
-          POSTGRES_DB: circle_test
-    parallelism: 1
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - go-mod-v4-{{ checksum "go.sum" }}
-            - go-mod-v4--
-      - run:
-          name: Waiting for Postgres to be ready
-          command: dockerize -wait tcp://localhost:5432 -timeout 1m
-      - run:
-          name: Build
-          command: go build -o backend
-      - save_cache:
-          key: go-mod-v4-{{ checksum "go.sum" }}
-          paths:
-            - "/go/pkg/mod"
-      - run:
-          name: Start service
-          command: /home/circleci/project/backend
-          background: true
-      - run:
-          name: Validate service is working
-          command: |
-            sleep 5
-            curl --retry 10 --retry-delay 1 -X GET  http://localhost:8080/health
-      - run: ls -al
-      - persist_to_workspace:
-          root: .
-          paths:
-            - configs
-            - backend
-  deploy:
-    docker:
-      - image: cimg/base:2020.01
+    <<: *default_config
     steps:
       - attach_workspace:
-          at: workspace
-      - run:
-          name: env
-          command: |
-            env
+          at: *working_directory
+      - run: pwd
+      - run: ls -al
+      - run: echo fn
 workflows:
   version: 2
-  dev_build_plan_approve_apply:
+  test:
     jobs:
-      - approve:
-          environment:
-            ENV: dev
-          type: approval
-          filters:
-            branches:
-              only: master
-      - build:
-          requires:
-            - approve
-      - deploy:
-          requires:
-            - build
-
-  prod_build_plan_approve_apply:
-    jobs:
-      - approve:
-          environment:
-            ENV: prod
-          type: approval
-          filters:
-            branches:
-              only: master
-      - build:
-          requires:
-            - approve
-      - deploy:
-          requires:
-            - build
+      - build
