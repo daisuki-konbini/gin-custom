@@ -5,16 +5,6 @@ parameters:
     type: string
     default: "~/infra/dev"
 
-# commands:
-#   greeting:
-#     parameters:
-#       env:
-#         type: string
-#         default: "dev"
-#     steps:
-#       - run: export ENV=dev
-#       - run: echo $ENV
-
 base_image: &base_image hashicorp/terraform:0.12.29
 
 default_config: &default_config
@@ -28,6 +18,14 @@ commands:
         type: string
     steps:
       - run: echo << parameters.message >>
+  greeting:
+    parameters:
+      env:
+        type: string
+        default: "dev"
+    steps:
+      - run: export ENV=dev
+      - run: echo $ENV
 
 jobs:
   cat-file:
@@ -40,6 +38,7 @@ jobs:
       - print:
           message: Printing << parameters.file >>
       - run: cat << parameters.file >>
+      - run: echo $ENV
 
 workflows:
   my-workflow:
