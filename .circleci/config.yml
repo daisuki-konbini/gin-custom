@@ -45,16 +45,16 @@ workflows:
             parameters:
               env: ["dev", "test"]
       - approve:
-          name: approve-<< matrix.version >>
+          name: approve-<< matrix.env >>
           matrix:
             parameters:
               env: ["dev", "test"]
           requires:
-            - build-<< matrix.version >>
+            - build-<< matrix.env >>
       - build:
-          name: apply-<< matrix.version >>
+          name: apply-<< matrix.env >>
           matrix:
             parameters:
               env: ["dev", "test"]
           requires:
-            - approve-<< matrix.version >>
+            - approve-<< matrix.env >>
