@@ -46,3 +46,4 @@ workflows:
   test:
     jobs:
       - build
+      - ls
