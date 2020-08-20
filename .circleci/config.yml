@@ -24,7 +24,7 @@ commands:
         type: string
         default: "dev"
     steps:
-      - run: export ENV=dev
+      - run: export ENV=<< parameters.env >>
 
 jobs:
   cat-file:
@@ -40,6 +40,7 @@ jobs:
           env: test
       - run: cat << parameters.file >>
       - run: echo $ENV
+      - run: env
 
 workflows:
   my-workflow:
