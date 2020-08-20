@@ -50,10 +50,7 @@ parameters:
 workflows:
   my-workflow:
     when:
-      condition:
-        or:
-          - equal: [1, 3]
-          - equal: [1, 2]
+      condition: false
     jobs:
       - build
       - ls:
