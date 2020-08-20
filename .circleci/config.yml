@@ -1,17 +1,13 @@
 version: 2.1
 
-commands:
-  env_init:
+commands: # a reusable command with parameters
+  greeting:
     parameters:
-      env:
+      to:
+        default: "world"
         type: string
-        default: "dev"
-      workingdir:
-        type: string
-        default: "~/infra/dev"
     steps:
-      - run: export ENV=<<parameters.env>>
-      - run: echo "workingdir = <<parameters.workingdir>>"
+      - run: echo "Hello <<parameters.to>>"
 
 base_image: &base_image hashicorp/terraform:0.12.29
 
@@ -27,6 +23,12 @@ persist: &persist
       touch test1.txt
 
 jobs:
+  my-job:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - greeting:
+        to: "My-Name"
   build:
     <<: *default_config
     steps:
@@ -48,7 +50,6 @@ jobs:
 workflows:
   my-workflow:
     jobs:
-      - env_init
       - build
       - ls:
           requires:
