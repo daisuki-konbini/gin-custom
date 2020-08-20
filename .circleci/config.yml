@@ -13,6 +13,7 @@ commands:
         default: "dev"
     steps:
       - run: export ENV=<<parameters.env>>
+      - run: echo <<parameters.env>>
 
 base_image: &base_image hashicorp/terraform:0.12.29
 
@@ -56,6 +57,7 @@ jobs:
 workflows:
   my-workflow:
     jobs:
+      - my-job
       - build
       - ls:
           requires:
