@@ -35,6 +35,7 @@ jobs:
         env: "My-Name"
   build:
     <<: *default_config
+    working_directory: << pipeline.parameters.workingdir >>
     steps:
       - *persist
       - persist_to_workspace:
