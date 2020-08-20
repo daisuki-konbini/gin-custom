@@ -44,7 +44,7 @@ workflows:
           matrix:
             parameters:
               env: ["dev", "test"]
-      - approve:
+      - build:
           name: approve-<< matrix.env >>
           matrix:
             parameters:
