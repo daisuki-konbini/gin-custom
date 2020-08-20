@@ -38,6 +38,8 @@ jobs:
     steps:
       - run: echo $ENV
       - run: touch test
+      - run: ls
+      - run: pwd
       - persist_to_workspace:
           root: ~/<< pipeline.parameters.workingdir >>/<< parameters.env >>
           paths:
