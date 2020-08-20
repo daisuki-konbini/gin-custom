@@ -41,8 +41,28 @@ workflows:
   my-workflow:
     jobs:
       - cat-file:
-          name: build-macos-0.1
+          name: build-test
           env: test
       - cat-file:
-          name: build-macos-0.1
+          name: build-dev
           env: dev
+      - approve:
+          type: approval
+          name: apply-test
+          requires:
+            - build-test
+      - approve:
+          type: approval
+          name: apply-dev
+          requires:
+            - build-dev
+      - cat-file:
+          name: apply-test
+          env: dev
+          requires:
+            - apply-test
+      - cat-file:
+          name: apply-dev
+          env: dev
+          requires:
+            - apply-dev
