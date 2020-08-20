@@ -46,4 +46,6 @@ workflows:
   test:
     jobs:
       - build
-      - ls
+      - ls:
+          requires:
+            - build
