@@ -36,6 +36,10 @@ install_dependencies: &install_dependencies
 jobs:
   build:
     <<: *default_config
+    parameters:
+      p:
+        type: integer
+        default: 1
     steps:
       - *install_dependencies
       - *persist
@@ -44,7 +48,7 @@ jobs:
           paths:
             - test.txt
             - test1.txt
-      - run: echo "$(pwd) == << pipeline.parameters.workingdir = test >>"
+      - run: echo "$(pwd) == << pipeline.parameters.workingdir >>"
 
   ls:
     <<: *default_config
@@ -59,7 +63,8 @@ workflows:
     when:
       and: [true, true]
     jobs:
-      - build
+      - build:
+          p: 2
       - ls:
           requires:
             - build
