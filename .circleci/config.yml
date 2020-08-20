@@ -57,7 +57,7 @@ jobs:
 workflows:
   my-workflow:
     when:
-      and: [true, false]
+      and: [true, true]
     jobs:
       - build
       - ls:
