@@ -25,7 +25,6 @@ commands:
         default: "dev"
     steps:
       - run: export ENV=dev
-      - run: echo $ENV
 
 jobs:
   cat-file:
@@ -37,6 +36,8 @@ jobs:
       - run: touch << parameters.file >>
       - print:
           message: Printing << parameters.file >>
+      - greeting:
+          env: test
       - run: cat << parameters.file >>
       - run: echo $ENV
 
