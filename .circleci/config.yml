@@ -53,10 +53,10 @@ jobs:
         default: dev
     environment:
       ENV: << parameters.env >>
+    working_directory: << pipeline.parameters.workingdir >>/<< parameters.env >>
     steps:
       - attach_workspace:
           at: << pipeline.parameters.workingdir >>/<< parameters.env >>
-      - working_directory: << pipeline.parameters.workingdir >>/<< parameters.env >>
       - run:
           command: |
             ls
