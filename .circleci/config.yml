@@ -38,13 +38,14 @@ jobs:
       ENV: << parameters.env >>
     steps:
       - run: echo $ENV
-      - run: touch test
+      - run: touch test.txt
+      - run: touch ps.txt
       - run: ls
       - run: pwd
       - persist_to_workspace:
           root: << pipeline.parameters.workingdir >>/<< parameters.env >>
           paths:
-            - test
+            - ./*
   deploy:
     executor: default-executor
     parameters:
